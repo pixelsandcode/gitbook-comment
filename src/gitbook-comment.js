@@ -99,9 +99,9 @@ program
   .option('-i, --ignores [ignores]', 'Comma separated folder names to ignore', 'node_modules')
   .option('-e, --extensions [extensions]', 'Comma separated extension names to include', 'js')
   .action((cmd) => {
-    cmd.ignores = cmd.ignores.split(',')
-    cmd.extensions = cmd.extensions.split(',')
-    generateDocs(cmd.path, cmd.extensions, cmd.ignores)
+    //cmd.ignores = cmd.ignores.split(',')
+    //cmd.extensions = cmd.extensions.split(',')
+    //generateDocs(cmd.path, cmd.extensions, cmd.ignores)
     git.checkoutBranch("gh-pages")
   })
 
