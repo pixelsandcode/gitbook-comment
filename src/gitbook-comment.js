@@ -90,7 +90,8 @@ program
   // eslint-disable-next-line no-undef
   .option('-b, --branch [name]', 'Doc branch', 'gh-pages')
   .action((cmd) => {
-    ghpages.publish({ branch: cmd.branch });
+    print(`Publishing files to ${cmd.branch}`.green.bold)
+    ghpages.publish('./', { branch: cmd.branch, dotfiles: true }, (e) => { if (e) print(e) });
   })
 
 program
