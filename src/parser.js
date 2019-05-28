@@ -1,3 +1,10 @@
+// # Code Parser
+// This file is used to parse code and extract comments and code for creating markdown files
+
+// ## Parser
+// Separate code from comments. All comments should be written single line format `//`. Otherwise 
+// This parser will skip them. This is very useful when you want to have lint comments not tracked 
+// in documentation.
 const parse = function(source) {
   var code, doc, hasCode, line;
   doc = code = '';
@@ -32,6 +39,9 @@ const parse = function(source) {
   return sections;
 };
 
+// ## Compiler
+// Convert the sections created in Parser to markdown content and code to markdown javascript code blocks.
+// Currently other types of code blocks are not supported.
 const compile = function(sections) {
   var len = sections.length;
   var section;

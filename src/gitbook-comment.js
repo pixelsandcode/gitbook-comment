@@ -82,18 +82,6 @@ program
     file.cleanFilesSync(files);
   })
 
-// ### 2. Publish doc files
-// `./bin/gitbook-comment publish --branch doc`
-program
-  .command('publish')
-  .description('Publish generated docs to repository')
-  // eslint-disable-next-line no-undef
-  .option('-b, --branch [name]', 'Doc branch', 'gh-pages')
-  .action((cmd) => {
-    print(`Publishing files to ${cmd.branch}`.green.bold)
-    ghpages.publish('./', { branch: cmd.branch, dotfiles: true }, (e) => { if (e) print(e) });
-  })
-
 program
   // eslint-disable-next-line no-undef
   .parse(process.argv)
