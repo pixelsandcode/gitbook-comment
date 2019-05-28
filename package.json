@@ -1,0 +1,21 @@
+{
+  "name": "md-comment",
+  "version": "1.0.0",
+  "description": "Generate Markdown file from comments in source code",
+  "main": "src/gitbook-comment.js",
+  "bin": {
+    "gitbook-comment": "./bin/gitbook-comment"
+  },
+  "author": "Arash Karimzadeh",
+  "license": "ISC",
+  "dependencies": {
+    "colors": "^1.3.3",
+    "commander": "^2.20.0",
+    "fs-extra": "^8.0.1",
+    "marked": "^0.6.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-standard": "^12.0.0"
+  }
+}
