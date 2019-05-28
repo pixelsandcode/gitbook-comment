@@ -1,4 +1,4 @@
-// # Markdown Generator for gitbook.com
+// # Markdown Generator
 // This is an easy `.md` generator for gitbook.com. It creates markdown file using comments in the source file
 // And place them next to the original file by default
 const program = require('commander')
