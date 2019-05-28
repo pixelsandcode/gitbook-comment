@@ -1,10 +1,11 @@
+/* eslint-disable no-console */
 // # Markdown Generator
 // This is an easy `.md` generator for gitbook.com. It creates markdown file using comments in the source file
 // And place them next to the original file by default
 const program = require('commander')
 const fs = require('fs-extra')
 const path = require('path')
-const ghpages = require('gh-pages')
+const git = require('simple-git')();
 require('colors');
 
 const file = require('./file.js')
@@ -22,7 +23,9 @@ const callback = () => print('Error in processing files'.red)
 // ## How Files are Processed?
 // This method is getting a list of files and perform below steps: 
 // 1. Read one by one
-// 2. Parse them
+// 2. Parse them:
+//   * Code
+//   * Comment
 // 3. Save the result as MD ([MarkDown](https://www.markdownguide.org/cheat-sheet/))
 const processFiles = function(files, complete) {
   var source, target;
@@ -40,8 +43,16 @@ const processFiles = function(files, complete) {
   });
 };
 
+const generateDocs = (path, ignores, extensions) => {
+  const files = file.listFilesSync(path, extensions, ignores)
+  const totalFiles = files.length
+  print(`${totalFiles} file(s) to convert:`.green.bold)
+  const complete = () => print(`All ${totalFiles} file(s) are converted!`.green.bold)
+  processFiles(files, complete);
+}
+
 // ## CLI Commands
-// There are 2 commands in this CLI
+// There are 3 commands in this CLI
 // 
 // ### 1. Generate doc file
 //
@@ -57,11 +68,7 @@ program
   .action((cmd) => {
     cmd.ignores = cmd.ignores.split(',')
     cmd.extensions = cmd.extensions.split(',')
-    const files = file.listFilesSync(cmd.path, cmd.extensions, cmd.ignores)
-    const totalFiles = files.length
-    print(`${totalFiles} file(s) to convert:`.green.bold)
-    const complete = () => print(`All ${totalFiles} file(s) are converted!`.green.bold)
-    processFiles(files, complete);
+    generateDocs(cmd.path, cmd.extensions, cmd.ignores)
   })
 
 // ### 2. Clean up doc files
@@ -70,8 +77,7 @@ program
 program
   .command('clean-up')
   .description('Remove generated docs')
-  // eslint-disable-next-line no-undef
-  .option('-p, --path [path]', 'Source path', __dirname)
+  .option('-p, --path [path]', 'Source path', root)
   .option('-i, --ignores [ignores]', 'Comma separated folder names to ignore', 'node_modules')
   .action((cmd) => {
     // Make sure README.md files are not deleted in the project
@@ -80,6 +86,23 @@ program
     const totalFiles = files.length
     print(`Cleaning up all generated doc files (${totalFiles})`.red.bold)
     file.cleanFilesSync(files);
+  })
+
+// ### 3. Clean up doc files
+//  
+// `./bin/gitbook-comment clean-up -p ./src`
+program
+  .command('publish')
+  .description('Publish generated docs')
+  // eslint-disable-next-line no-undef
+  .option('-p, --path [path]', 'Source path', root)
+  .option('-i, --ignores [ignores]', 'Comma separated folder names to ignore', 'node_modules')
+  .option('-e, --extensions [extensions]', 'Comma separated extension names to include', 'js')
+  .action((cmd) => {
+    cmd.ignores = cmd.ignores.split(',')
+    cmd.extensions = cmd.extensions.split(',')
+    generateDocs(cmd.path, cmd.extensions, cmd.ignores)
+    git.checkoutBranch("gh-pages")
   })
 
 program
