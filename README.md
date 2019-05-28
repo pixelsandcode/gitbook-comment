@@ -4,10 +4,11 @@
 1. install the npm using `npm install --save gitbook-comment` 
 2. use `gitbook-comment --help` to read the command line instructions
 3. You can generate doc by a command like this:
+
 ```
 gitbook-comment generate
 
-// or if you want more options use
+//or if you want more options use
 
 gitbook-comment generate -p ./src -i bin -e js,css,scss
 ```
