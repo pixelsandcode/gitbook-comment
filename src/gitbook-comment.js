@@ -1,22 +1,23 @@
 // # Markdown Generator for gitbook.com
 // This is an easy `.md` generator for gitbook.com. It creates markdown file using comments in the source file
 // And place them next to the original file by default
-const program = require('commander');
-const fs = require('fs-extra');
-const path = require('path');
+const program = require('commander')
+const fs = require('fs-extra')
+const path = require('path')
+const ghpages = require('gh-pages')
 require('colors');
 
-const file = require('./file.js');
-const parser = require('./parser.js');
+const file = require('./file.js')
+const parser = require('./parser.js')
 
 /* eslint-disable-next-line no-console */
-const print = console.log;
+const print = console.log
 /* eslint-disable-next-line no-undef */
 const root = path.join(__dirname, '../')
 
 // ## End of Process Callback
 // This is called when there is an error with saving the file
-const callback = () => print('Error in processing files'.red);
+const callback = () => print('Error in processing files'.red)
 
 // ## How Files are Processed?
 // This method is getting a list of files and perform below steps: 
@@ -79,6 +80,17 @@ program
     const totalFiles = files.length
     print(`Cleaning up all generated doc files (${totalFiles})`.red.bold)
     file.cleanFilesSync(files);
+  })
+
+// ### 2. Publish doc files
+// `./bin/gitbook-comment publish --branch doc`
+program
+  .command('publish')
+  .description('Publish generated docs to repository')
+  // eslint-disable-next-line no-undef
+  .option('-b, --branch [name]', 'Doc branch', 'gh-pages')
+  .action((cmd) => {
+    ghpages.publish({ branch: cmd.branch });
   })
 
 program
