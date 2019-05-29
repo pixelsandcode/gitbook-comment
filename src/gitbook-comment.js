@@ -127,7 +127,7 @@ program
           .then((success) => {
             if (!success) return false;
             print(`Switched to ${cmd.branch}`.green.bold)
-            exec(`git pull origin ${branch}`)
+            execGit(`git pull origin ${branch}`)
           })
           .then((success) => {
             if (!success) return false;
