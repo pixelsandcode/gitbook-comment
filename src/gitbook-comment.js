@@ -135,6 +135,10 @@ program
           })
           .then((success) => {
             if (!success) return false;
+            execGit('git commit -a -m "add doc"')
+          })
+          .then((success) => {
+            if (!success) return false;
             execGit(`git checkout ${branch}`)
           })
       })
