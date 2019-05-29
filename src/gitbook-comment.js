@@ -132,7 +132,7 @@ program
           })
           .then((success) => {
             if (!success) return false
-            return execGit('git commit -a -m "add doc"')
+            return execGit('git add -A && git commit -a -m "add doc"')
           })
           .then((success) => {
             if (!success) return false
