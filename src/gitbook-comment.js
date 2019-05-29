@@ -135,6 +135,7 @@ program
             return generateDocs(cmd.path, cmd.extensions, cmd.ignores)
           })
           .then((success) => {
+            console.log(success)
             if (!success) return false
             return execGit('git commit -a -m "add doc"')
           })
