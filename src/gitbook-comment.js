@@ -127,11 +127,11 @@ program
           .then((success) => {
             if (!success) return false;
             print(`Switched to ${cmd.branch}`.green.bold)
-            generateDocs(cmd.path, cmd.extensions, cmd.ignores)
+            exec(`git pull origin ${branch}`)
           })
           .then((success) => {
             if (!success) return false;
-            exec(`git pull origin ${branch}`)
+            generateDocs(cmd.path, cmd.extensions, cmd.ignores)
           })
           .then((success) => {
             if (!success) return false;
