@@ -136,16 +136,21 @@ program
           })
           .then((success) => {
             if (!success) return false
-            print(`Commit changes to ${cmd.branch}`.green.bold)
             return execGit('git commit -a -m "add doc"')
           })
           .then((success) => {
             if (!success) return false
-            print(`Switch back to ${branch}`.green.bold)
+            print(`Commit changes at ${cmd.branch}`.green.bold)
+            return execGit(`git push origin ${cmd.branch}`)
+          })
+          .then((success) => {
+            if (!success) return false
+            print(`Push changes ${cmd.branch}`.green.bold)
             return execGit(`git checkout ${branch}`)
           })
           .then((success) => {
-            if (!success) return print("Finished with error(s)".green.red)
+            if (!success) return print("Finished with error(s). Please use git command to solve the issue before next run".red)
+            print(`Switch back to ${branch}`.green.bold)
             print("Finished with no error".green.bold)
           })
       })
