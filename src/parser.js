@@ -12,7 +12,7 @@ const parse = function(source) {
   var len = lines.length;
   var sections = [];
   const lang = {
-    singleLineComment: /^\/\/\s/
+    singleLineComment: /^\/\/(\s)?/
   }
   hasCode = ! lang.singleLineComment.test(lines[0]);
   
@@ -48,7 +48,11 @@ const compile = function(sections) {
   var text = '';
   for (var i = 0; i < len; i++) {
     section = sections[i];
-    if (section.code) text += '```javascript\n' + section.code.replace(/\n$/, '') + '```\n';
+    if (section.code) {
+      if (section.code.replace(/\n/, '') !== '') {
+        text += '\n```javascript\n' + section.code.replace(/(\n)*$/, '').replace(/^(\n)*/, '') + '\n```\n';
+      }
+    }
     if (section.doc) text += section.doc;
   }
   return text;

@@ -1,4 +1,5 @@
 // # Markdown Generator
+
 // This is an easy `.md` generator for gitbook.com. It creates markdown file using comments in the source file
 // And place them next to the original file by default
 const program = require('commander')
@@ -48,7 +49,7 @@ const generateDocs = (path, extensions, ignores) => {
 
 // ## CLI Commands
 // There are 2 commands in this CLI
-// 
+//
 // ### 1. Generate doc file
 //
 // `./bin/gitbook-comment generate -e js,css -i node_modules,bin -p ./src`
@@ -67,7 +68,7 @@ program
   })
 
 // ### 2. Clean up doc files
-//  
+//
 // `./bin/gitbook-comment clean-up -p ./src`
 program
   .command('clean-up')
