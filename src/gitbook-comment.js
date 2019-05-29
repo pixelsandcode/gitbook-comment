@@ -45,7 +45,7 @@ const generateDocs = (path, extensions, ignores) => {
   const totalFiles = files.length
   print(`${totalFiles} file(s) to convert:`.green.bold)
   const complete = () => print(`All ${totalFiles} file(s) are converted!`.green.bold)
-  processFiles(files, complete);
+  return processFiles(files, complete);
 }
 
 // ## CLI Commands
