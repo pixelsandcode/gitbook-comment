@@ -4,7 +4,7 @@
 const program = require('commander')
 const fs = require('fs-extra')
 const path = require('path')
-const exec = require('child_process').exec;
+const exec = require('node-exec-promise').exec;
 require('colors');
 
 const file = require('./file.js')
@@ -85,13 +85,28 @@ program
     file.cleanFilesSync(files);
   })
 
-const gitExec = (command, next) => {
-  exec(command, (error, stdout) => {
-    if (error) return print(error)
-    print(stdout)
-    next()
-  })
-}
+const getBranchName = () => exec("git branch").then(
+  (out) => {
+    var branch;
+    out.stdout.split('\n').forEach((name) => {
+      if (name[0] === '*') branch = name.split(' ')[1];
+    })
+    print(`Currently at ${branch}`.green);
+    return branch;
+  }
+)
+
+const switchBranch = (branch) => exec(`git checkout ${branch}`).then(
+  (out) => {
+    print(out.toString().green)
+    return true;
+  },
+  (error) => {
+    print(error.toString().red)
+    return false;
+  }
+)
+
 
 // ### 3. Generate and publish doc files
 //  
@@ -106,8 +121,20 @@ program
   .action((cmd) => {
     cmd.ignores = cmd.ignores.split(',')
     cmd.extensions = cmd.extensions.split(',')
-    const generate = () => generateDocs(cmd.path, cmd.extensions, cmd.ignores)
-    gitExec(`git checkout ${cmd.branch}`, generate)
+    getBranchName()
+      .then((branch) => {
+        switchBranch(cmd.branch)
+          .then((success) => {
+            if (!success) return false;
+            print(`Switched to ${cmd.branch}`.green.bold)
+            generateDocs(cmd.path, cmd.extensions, cmd.ignores)
+          })
+          .then((success) => {
+            if (!success) return false;
+            switchBranch(branch)
+          })
+      })
+    //
   })
 program
   // eslint-disable-next-line no-undef
