@@ -23,7 +23,7 @@ const root = path.join(__dirname, '../')
 // 3. Save the result as MD ([MarkDown](https://www.markdownguide.org/cheat-sheet/))
 //    * test
 //    * test 2
-//
+
 const processFiles = function(files) {
   var source, target, i, code, sections;
   for (i = 0; i < files.length; i++) {
