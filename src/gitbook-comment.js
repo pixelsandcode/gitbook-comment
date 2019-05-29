@@ -24,28 +24,26 @@ const callback = () => print('Error in processing files'.red)
 // 1. Read one by one
 // 2. Parse them
 // 3. Save the result as MD ([MarkDown](https://www.markdownguide.org/cheat-sheet/))
-const processFiles = function(files, complete) {
-  var source, target;
-  source = files.shift();
-  target = source.substr(0, source.lastIndexOf(".")) + '.md';
-  return fs.readFileSync(source, function(error, buffer) {
-    var code, sections
-    if (error) return callback(error)
-    code = buffer.toString()
+const processFiles = function(files) {
+  var source, target, i, code, sections;
+  for (i = 0; i < files.length; i++) {
+    source = files[i];
+    target = source.substr(0, source.lastIndexOf(".")) + '.md';
+    code = fs.readFileSync(source).toString()
     // Separate Code from MD comments
     sections = parser.parse(code, {})
     fs.outputFileSync(target, parser.compile(sections))
     print(`${source} => ${target}`.green)
-    return (files.length) ? processFiles(files, complete) : complete() 
-  });
+  } 
 };
 
 const generateDocs = (path, extensions, ignores) => {
   const files = file.listFilesSync(path, extensions, ignores)
   const totalFiles = files.length
   print(`${totalFiles} file(s) to convert:`.green.bold)
-  const complete = () => print(`All ${totalFiles} file(s) are converted!`.green.bold)
-  return processFiles(files, complete);
+  processFiles(files)
+  print(`All ${totalFiles} file(s) are converted!`.green.bold)
+  return true
 }
 
 // ## CLI Commands
