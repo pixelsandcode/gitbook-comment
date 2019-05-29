@@ -20,4 +20,4 @@ gitbook-comment clean-up
 
 5. You should upload this to **gh-pages or any other none development branch** and use gitbook.com to load it as reference.
 
-You can learn more on how it works [here](./src/gitbook-comment.md)
+You can learn more on how it works [here](https://tipi-1.gitbook.io/gitbook-comment/v/gh-pages/)
