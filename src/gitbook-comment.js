@@ -44,6 +44,16 @@ const generateDocs = (path, extensions, ignores) => {
   return true
 }
 
+const cleanupDocs = (path, ignores) => {
+  // Make sure README.md files are not deleted in the project
+  ignores = ['README.md', ...ignores]
+  const files = file.listFilesSync(path, ['md'], ignores)
+  const totalFiles = files.length
+  print(`Cleaning up all generated doc files (${totalFiles})`.red.bold)
+  file.cleanFilesSync(files);
+  return true
+}
+
 // ## CLI Commands
 // There are 2 commands in this CLI
 //
@@ -73,12 +83,8 @@ program
   .option('-p, --path [path]', 'Source path', root)
   .option('-i, --ignores [ignores]', 'Comma separated folder names to ignore', 'node_modules')
   .action((cmd) => {
-    // Make sure README.md files are not deleted in the project
-    cmd.ignores = ['README.md', ...cmd.ignores.split(',')]
-    const files = file.listFilesSync(cmd.path, ['md'], cmd.ignores)
-    const totalFiles = files.length
-    print(`Cleaning up all generated doc files (${totalFiles})`.red.bold)
-    file.cleanFilesSync(files);
+    cmd.ignores = cmd.ignores.split(',')
+    cleanupDocs(cmd.path, cmd.ignores)
   })
 
 const getBranchName = () => exec("git branch").then(
@@ -128,6 +134,10 @@ program
           .then((success) => {
             if (!success) return false
             print(`Pull updates from remote branch '${branch}'`.green.bold)
+            return cleanupDocs(cmd.path, cmd.ignores)
+          })
+          .then((success) => {
+            if (!success) return false
             return generateDocs(cmd.path, cmd.extensions, cmd.ignores)
           })
           .then((success) => {
