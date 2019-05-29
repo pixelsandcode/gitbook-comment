@@ -16,12 +16,14 @@ const print = console.log
 const root = path.join(__dirname, '../')
 
 // ## How Files are Processed?
-// This method is getting a list of files and perform below steps: 
+// This method is getting a list of files and perform below steps:
+// 
 // 1. Read one by one
 // 2. Parse them
 // 3. Save the result as MD ([MarkDown](https://www.markdownguide.org/cheat-sheet/))
 //    * test
 //    * test 2
+//
 const processFiles = function(files) {
   var source, target, i, code, sections;
   for (i = 0; i < files.length; i++) {
