@@ -28,7 +28,7 @@ const processFiles = function(files, complete) {
   var source, target;
   source = files.shift();
   target = source.substr(0, source.lastIndexOf(".")) + '.md';
-  return fs.readFile(source, function(error, buffer) {
+  return fs.readFileSync(source, function(error, buffer) {
     var code, sections
     if (error) return callback(error)
     code = buffer.toString()
