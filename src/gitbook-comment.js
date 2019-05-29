@@ -98,7 +98,7 @@ const getBranchName = () => exec("git branch").then(
 
 const execGit = (cmd) => exec(cmd).then(
   (out) => {
-    print(out.toString().green)
+    print(out.stdout)
     return true;
   },
   (error) => {
