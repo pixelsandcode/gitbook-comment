@@ -127,7 +127,19 @@ program
           .then((success) => {
             if (!success) return false;
             print(`Switched to ${cmd.branch}`.green.bold)
-            execGit(`git pull origin ${branch}`)
+            return execGit(`git pull origin ${branch}`)
+          })
+          .then((success) => {
+            if (!success) return false;
+            return generateDocs(cmd.path, cmd.extensions, cmd.ignores)
+          })
+          .then((success) => {
+            if (!success) return false;
+            return execGit('git commit -a -m "add doc"')
+          })
+          .then((success) => {
+            if (!success) return false;
+            execGit(`git checkout ${branch}`)
           })
       })
     //
