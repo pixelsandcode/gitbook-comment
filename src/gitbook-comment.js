@@ -96,7 +96,7 @@ const getBranchName = () => exec("git branch").then(
   }
 )
 
-const switchBranch = (branch) => exec(`git checkout ${branch}`).then(
+const execGit = (cmd) => exec(cmd).then(
   (out) => {
     print(out.toString().green)
     return true;
@@ -123,7 +123,7 @@ program
     cmd.extensions = cmd.extensions.split(',')
     getBranchName()
       .then((branch) => {
-        switchBranch(cmd.branch)
+        execGit(`git checkout ${cmd.branch}`)
           .then((success) => {
             if (!success) return false;
             print(`Switched to ${cmd.branch}`.green.bold)
@@ -131,7 +131,11 @@ program
           })
           .then((success) => {
             if (!success) return false;
-            switchBranch(branch)
+            exec(`git pull origin ${branch}`)
+          })
+          .then((success) => {
+            if (!success) return false;
+            execGit(`git checkout ${branch}`)
           })
       })
     //
