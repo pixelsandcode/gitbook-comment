@@ -125,21 +125,28 @@ program
       .then((branch) => {
         execGit(`git checkout ${cmd.branch}`)
           .then((success) => {
-            if (!success) return false;
+            if (!success) return false
             print(`Switched to ${cmd.branch}`.green.bold)
             return execGit(`git pull origin ${branch}`)
           })
           .then((success) => {
-            if (!success) return false;
+            if (!success) return false
+            print(`Pull updates from remote branch '${branch}'`.green.bold)
             return generateDocs(cmd.path, cmd.extensions, cmd.ignores)
           })
           .then((success) => {
-            if (!success) return false;
+            if (!success) return false
+            print(`Commit changes to ${cmd.branch}`.green.bold)
             return execGit('git commit -a -m "add doc"')
           })
           .then((success) => {
-            if (!success) return false;
-            execGit(`git checkout ${branch}`)
+            if (!success) return false
+            print(`Switch back to ${branch}`.green.bold)
+            return execGit(`git checkout ${branch}`)
+          })
+          .then((success) => {
+            if (!success) return print("Finished with error(s)".green.red)
+            print("Finished with no error".green.bold)
           })
       })
     //
