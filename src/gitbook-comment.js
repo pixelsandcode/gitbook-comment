@@ -15,10 +15,6 @@ const print = console.log
 /* eslint-disable-next-line no-undef */
 const root = path.join(__dirname, '../')
 
-// ## End of Process Callback
-// This is called when there is an error with saving the file
-const callback = () => print('Error in processing files'.red)
-
 // ## How Files are Processed?
 // This method is getting a list of files and perform below steps: 
 // 1. Read one by one
