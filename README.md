@@ -3,23 +3,48 @@
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
 
 ## Instruction
-1. install the npm using `npm install --save gitbook-comment` 
-2. use `gitbook-comment --help` to read the command line instructions
-3. You can generate doc by a command like this:
+1. Install the npm using `npm install --save gitbook-comment` 
+2. Use `gitbook-comment --help` to read the command line instructions
+3. Edit your package.json with
+```json
+  "scripts": {
+    "doc-generate": "gitbook-comment generate -p ./",
+    "doc-clean-up": "gitbook-comment clean-up -p ./",
+    "doc-publish": "gitbook-comment publish -p ./"
+  }
+```
+4. Make suer you have `docs` branch created locally on your machine by `git branch docs`
+5. Make sure you have your code committed on your working branch
+6. Run `npm run doc-generate` on your working branch:
+   * This will switch branch automatically to `docs`
+   * Create documents next to source files
+   * Push them to github
+   * Switch back to working branch
 
-```
-gitbook-comment generate
+**Note** If you do not commit your work in working branch, it may get lost in switching the branches.
 
-//or if you want more options use
-
-gitbook-comment generate -p ./src -i bin -e js,css,scss
-```
-4. Or clean up the created `.md` files
-```
-gitbook-comment clean-up
-```
 **note:** This generator is creating the `.md` files in same folder next to the original files.
 
-5. You should upload this to **gh-pages or any other none development branch** and use gitbook.com to load it as reference.
+Alternatively you can generate or clean up docs in any branch
+```bash
+# Generate doc in current branch
+npm run doc-generate
+
+# Check help for a command
+npm run doc-generate -- -h
+
+# Get full documentation
+./node_modules/gitbook-comment/bin/gitbook-comment -h
+
+# Use more more options on a command
+npm run doc-generate -- -p ./src -i bin -e js,css,scss
+
+# Clean up generated docs
+npm run doc-comment clean-up
+```
+
+If you generate doc manually, make sure they are uploaded to **docs or any other none development branch** and use gitbook.com integration to view them.
+
+
 
 You can learn more on how it works [here](https://tipi-1.gitbook.io/gitbook-comment/v/docs/)
