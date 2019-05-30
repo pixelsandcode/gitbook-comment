@@ -1,7 +1,8 @@
-// # Markdown Generator
+# Markdown Generator
+This is an easy `.md` generator for gitbook.com. It creates markdown file using comments in the source file
+And place them next to the original file by default
 
-// This is an easy `.md` generator for gitbook.com. It creates markdown file using comments in the source file
-// And place them next to the original file by default
+```javascript
 const program = require('commander')
 const fs = require('fs-extra')
 const path = require('path')
@@ -15,14 +16,16 @@ const parser = require('./parser.js')
 const print = console.log
 /* eslint-disable-next-line no-undef */
 const root = path.join(__dirname, '../')
+```
+## Core methods
+### How Files are Processed?
+This method is getting a list of files and perform below steps:
 
-// ## Core methods
-// ### How Files are Processed?
-// This method is getting a list of files and perform below steps:
-//
-// 1. Read one by one
-// 2. Parse them
-// 3. Save the result as MD ([MarkDown](https://www.markdownguide.org/cheat-sheet/)) in the same path as source files
+1. Read one by one
+2. Parse them
+3. Save the result as MD ([MarkDown](https://www.markdownguide.org/cheat-sheet/)) in the same path as source files
+
+```javascript
 const processFiles = (files) => {
   var source, target, i, code, sections
   for (i = 0; i < files.length; i++) {
@@ -35,10 +38,12 @@ const processFiles = (files) => {
     print(`${source} => ${target}`.green)
   }
 }
+```
+### Reading files
+This method is using `processFiles` to compile `.md` files and
+uses [file.js](./file.md) to list all files in given path.
 
-// ### Reading files
-// This method is using `processFiles` to compile `.md` files and
-// uses [file.js](./file.md) to list all files in given path.
+```javascript
 const generateDocs = (path, extensions, ignores) => {
   const files = file.listFilesSync(path, extensions, ignores)
   const totalFiles = files.length
@@ -47,10 +52,12 @@ const generateDocs = (path, extensions, ignores) => {
   print(`All ${totalFiles} file(s) are converted!`.green.bold)
   return true
 }
+```
+### Delete generated .md docs
+This is used to clean up generated `.md` docs in a given path and useful if you create doc files by mistake.
+and ignore README.md files and others if specified
 
-// ### Delete generated .md docs
-// This is used to clean up generated `.md` docs in a given path and useful if you create doc files by mistake.
-// and ignore README.md files and others if specified
+```javascript
 const cleanupDocs = (path, ignores) => {
   // Make sure README.md files are not deleted in the project
   ignores = ['README.md', ...ignores]
@@ -60,9 +67,11 @@ const cleanupDocs = (path, ignores) => {
   file.cleanFilesSync(files)
   return true
 }
+```
+### Delete generated .md docs
+Get current branch name using git commands to be able to revert after publishing docs.
 
-// ### Delete generated .md docs
-// Get current branch name using git commands to be able to revert after publishing docs.
+```javascript
 const getBranchName = () => exec('git branch').then(
   (out) => {
     var branch
@@ -73,17 +82,21 @@ const getBranchName = () => exec('git branch').then(
     return branch
   }
 )
+```
+### Execute git commands
+Execute git commands and print outputs
 
-// ### Execute git commands
-// Execute git commands and print outputs
+```javascript
 const execGit = (cmd) => exec(cmd).then((out) => true, (error) => { throw error })
+```
+## CLI commands
+There are 3 commands in this CLI
 
-// ## CLI commands
-// There are 3 commands in this CLI
-//
-// ### 1. Generate doc file
-// `./bin/gitbook-comment generate -e js,css -i node_modules,bin -p ./src`
-// All arguments are explained in the command: `./bin/gitbook-comment --help` or `./bin/gitbook-comment generate -h`
+### 1. Generate doc file
+`./bin/gitbook-comment generate -e js,css -i node_modules,bin -p ./src`
+All arguments are explained in the command: `./bin/gitbook-comment --help` or `./bin/gitbook-comment generate -h`
+
+```javascript
 program
   .version('0.1.0')
   .command('generate')
@@ -96,9 +109,11 @@ program
     cmd.extensions = cmd.extensions.split(',')
     generateDocs(cmd.path, cmd.extensions, cmd.ignores)
   })
+```
+### 2. Clean up doc files
+`./bin/gitbook-comment clean-up -p ./src`
 
-// ### 2. Clean up doc files
-// `./bin/gitbook-comment clean-up -p ./src`
+```javascript
 program
   .command('clean-up')
   .description('Remove generated docs')
@@ -108,13 +123,15 @@ program
     cmd.ignores = cmd.ignores.split(',')
     cleanupDocs(cmd.path, cmd.ignores)
   })
+```
+### 3. Generate and publish doc files
+This is publishing to docs branch by default. You need to make sure the branch exist locally using `git branch docs`.
+Also you can choose any other branch by passing the `-b` argument.
 
-// ### 3. Generate and publish doc files
-// This is publishing to docs branch by default. You need to make sure the branch exist locally using `git branch docs`.
-// Also you can choose any other branch by passing the `-b` argument.
-//
-// **Note:** docs is chosen as default value as it is default branch in gitbook.
-// `./bin/gitbook-comment publish -b gh-pages`
+**Note:** docs is chosen as default value as it is default branch in gitbook.
+`./bin/gitbook-comment publish -b gh-pages`
+
+```javascript
 program
   .command('publish')
   .description('Generate and publish doc files')
@@ -156,4 +173,4 @@ program
 program
   // eslint-disable-next-line no-undef
   .parse(process.argv)
-
+```
