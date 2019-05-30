@@ -141,7 +141,7 @@ program
           .then(() => {
             print(`Commit changes on ${cmd.branch.bold} branch`.green)
             return execGit(`git push origin ${cmd.branch}`)
-          })
+          }) 
           .then(() => {
             print(`Push changes to ${cmd.branch.bold} branch`.green)
             return execGit(`git checkout ${branch}`)
