@@ -129,21 +129,21 @@ program
       .then((branch) => {
         execGit(`git checkout ${cmd.branch}`)
           .then(() => {
-            print(`Switched to ${cmd.branch.bold} branch`.green)
+            print(`Switched to ${cmd.branch} branch`.green.bold)
             return execGit(`git pull origin ${branch} -f`)
           })
           .then(() => {
-            print(`Pull updates from remote branch '${branch}'`.green.bold)
+            print(`Pull updates from remote branch '${branch.bold}'`.green)
             return cleanupDocs(cmd.path, cmd.ignores)
           })
           .then(() => generateDocs(cmd.path, cmd.extensions, cmd.ignores))
           .then(() => execGit('git add -A && git commit -a -m "add doc"'))
           .then(() => {
-            print(`Commit changes on ${cmd.branch} branch`.green.bold)
+            print(`Commit changes on ${cmd.branch.bold} branch`.green)
             return execGit(`git push origin ${cmd.branch}`)
           })
           .then(() => {
-            print(`Push changes to ${cmd.branch} branch`.green.bold)
+            print(`Push changes to ${cmd.branch.bold} branch`.green)
             return execGit(`git checkout ${branch}`)
           })
           .then(() => {
