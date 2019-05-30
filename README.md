@@ -1,5 +1,7 @@
 # Markdown Generator for gitbook.com
 
+[![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
+
 ## Instruction
 1. install the npm using `npm install --save gitbook-comment` 
 2. use `gitbook-comment --help` to read the command line instructions
