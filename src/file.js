@@ -32,7 +32,7 @@ module.exports = {
   cleanFilesSync: (files) => {
     for (var i = 0; i < files.length; i++) {
       console.log(files[i].red)
-      fs.remove(files[i])
+      fs.removeSync(files[i])
     }
   }
 }
