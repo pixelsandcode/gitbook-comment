@@ -47,4 +47,5 @@ If you generate doc manually, make sure they are uploaded to **docs or any other
 
 
 
-You can learn more on how it works [here](https://tipi-1.gitbook.io/gitbook-comment/v/docs/)
+* You can learn more on how it works [here](https://app.gitbook.com/@teepee/s/gitbook-comment/)
+* Demo project is located at https://github.com/pixelsandcode/gitbook-comment-demo
