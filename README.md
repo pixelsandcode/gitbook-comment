@@ -1,6 +1,35 @@
-# Markdown Generator for gitbook.com
+# Markdown Generator based on comment (Ideal for Gitbook)
 
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com)
+
+## What does it do?
+It generate markdown for any comment line starting with `/// ` **(there is a space at the end of it)**.
+
+```javascript
+/// ### Method Name
+/// This is my awesome method.
+function Sum(a, b) {
+  /// This will convert to markdown
+  // This is a normal comment
+  return a + b
+}
+/* Another normal comment */
+```
+Above code will become this:
+
+### Method Name
+This is my awesome method.
+```javascript
+function Sum(a, b) {
+```
+This will convert to markdown
+```javascript
+  // This is a normal comment
+  return a + b
+}
+/* Another normal comment */
+```
+
 
 ## Instruction
 1. Install the npm using `npm install --save gitbook-comment` 

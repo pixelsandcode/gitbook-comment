@@ -1,6 +1,6 @@
 {
   "name": "gitbook-comment",
-  "version": "1.0.6",
+  "version": "2.0.0",
   "description": "Generate Markdown file from comments in source code",
   "main": "src/gitbook-comment.js",
   "bin": {

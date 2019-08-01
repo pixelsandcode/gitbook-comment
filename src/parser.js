@@ -12,7 +12,7 @@ const parse = (source) => {
   var len = lines.length
   var sections = []
   const lang = {
-    singleLineComment: /^\/\/(\s)?/
+    singleLineComment: /^(\s)*\/\/\/(\s)?/
   }
   hasCode = !lang.singleLineComment.test(lines[0])
 
