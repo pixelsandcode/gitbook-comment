@@ -137,7 +137,7 @@ program
             return cleanupDocs(cmd.path, cmd.ignores)
           })
           .then(() => generateDocs(cmd.path, cmd.extensions, cmd.ignores))
-          .then(() => execGit('git add -A && git commit -a -m "add doc"'))
+          .then(() => execGit('git add -A && git commit -a -m "docs: add doc"'))
           .then(() => {
             print(`Commit changes on ${cmd.branch.bold} branch`.green)
             return execGit(`git push origin ${cmd.branch}`)
